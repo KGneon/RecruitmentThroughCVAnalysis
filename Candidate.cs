@@ -29,5 +29,7 @@ namespace CheckMyCV
         public string SurName { get; set; }
         public bool IsQualified { get; set; }
 
+        //public string CandidateFileName()
+
     }
 }

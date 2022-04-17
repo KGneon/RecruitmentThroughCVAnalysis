@@ -10,7 +10,7 @@ namespace CheckMyCV
     class CandidatesDataBase
     {
         public List<Candidate> Candidates { get; set; } = new List<Candidate>();
-        public string[] GetCandidatesList(string filePath)
+        public string[] GetCandidates(string filePath)
         {
             string[] candidatesList;
             String candidatesCvDirection = filePath;
@@ -19,28 +19,48 @@ namespace CheckMyCV
 
             return candidatesList;
         }
+        public void GetCandidatesList(string filePath)
+        {
+            string[] candidatesList = GetCandidates(filePath);
+            for (int i = 0; i < candidatesList.Length; i++)
+            {
+                var candidate = new Candidate(i+1, candidatesList[i]);
+                Candidates.Add(candidate);
+            }
+        }
 
         public void ShowCandidateFile(Candidate candidate)
         {
             Console.WriteLine($"ID: {candidate.Id}, CV File Name: {candidate.CVFileName}");
         }
-        public void ShowCandidatesFiles(string filePath)
-        {
 
-            string[] candidatesList = GetCandidatesList(filePath);
-            for (int i = 0; i < candidatesList.Length; i++)
+
+        public void ShowCandidatesFiles(List<Candidate> candidates)
+        {
+            foreach (Candidate candidate in candidates)
             {
-                var candidate = new Candidate(i, candidatesList[i]);
-                Candidates.Add(candidate);
                 ShowCandidateFile(candidate);
             }
-
         }
 
-        public string ExtractTextFromPdf(string path, string cv)
+        public void ShowAllCandidatesFiles()
+        {
+            ShowCandidatesFiles(Candidates);
+        }
+
+        public string GetCandidateFileNameById(int candidateId)
+        {
+            var file = Candidates.FirstOrDefault(c => c.Id.Equals(candidateId));
+            string fileName = file?.CVFileName;
+            return fileName;
+        }
+
+        public string ExtractTextFromPdf(string path, string cv, int fileNumber)
         {
             var doc = new Document($@"{path}\{cv}");
-            string textTest = doc.ToString();
+            string txtPath = $@"Output{fileNumber}.txt";
+            doc.Save(txtPath);
+            string textTest = File.ReadAllText(txtPath);
 
             return textTest;
         }
