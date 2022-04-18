@@ -8,12 +8,19 @@ namespace CheckMyCV
 {
     class QualificationsForThePosition
     {
-        public List<String> Qualifications { get; set; } = new List<String>();
+        public List<Qualification> Qualifications { get; set; } = new List<Qualification>();
 
-        public void AddingQualifications(string qualification)
+        public void AddingQualifications(Qualification qualification)
         {
             Qualifications.Add(qualification);
         }
+
+        public void RemoveQualifications(Qualification qualification)
+        {
+            Qualifications.Remove(qualification);
+        }
+
+
 
 
     }

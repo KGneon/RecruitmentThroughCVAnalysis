@@ -10,9 +10,9 @@ namespace CheckMyCV
         {
             bool go = true;
 
-            
+
             var listOfCandidates = new CandidatesDataBase();
-            var listOfQualifications = new QualificationsForThePosition();
+            var listOfRequirements = new QualificationsForThePosition();
 
             //Console.WriteLine("Choose the file to work on");
             string filePath = @"D:\Kodowanie\Git Projs\CheckMyCV\Candidates Files";
@@ -30,37 +30,25 @@ namespace CheckMyCV
                 Console.Clear();
                 MainMenu();
                 var officerInput = Console.ReadLine();
+                officerInput = InputCheckIfInt(officerInput).ToString();
                 switch (officerInput)
                 {
+                    case "0":
+                        BackToMenu();
+                        break;
                     case "1":
-                        //string filePath = @"D:\Kodowanie\Git Projs\CheckMyCV\Candidates Files";
                         listOfCandidates.ShowAllCandidatesFiles();
-                        Console.ReadLine();
+                        BackToMenu();
                         break;
                     case "2":
+                        Console.WriteLine("Do you want to add job requirements or remove requirements?");
                         Console.WriteLine("How many qualifications we are looking for?");
-                        string qualificationsNumber = Console.ReadLine();
-                        int qualificationsNumberInt;
-                        if (int.TryParse(qualificationsNumber, out int j))
-                        {
-                            qualificationsNumberInt = j;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Wrong input");
-                            Console.ReadLine();
-                            break;
-                        }
-                        for (int i = 0; i < qualificationsNumberInt; i++)
-                        {
-                            string q = Console.ReadLine();
-                            listOfQualifications.AddingQualifications(q);
-
-                            //Console.WriteLine(listOfQualifications.Qualifications[i]);
-                        }
+                        string requirementsNumber = Console.ReadLine();
+                        int requirementsNumberInt = InputCheckIfInt(requirementsNumber);
+                        BackToMenu();
                         break;
 
-                        case"4":
+                    case "4":
                         Console.WriteLine("Wybierz plik do odczytania 1-2");
                         string userInput = Console.ReadLine();
                         if (int.TryParse(userInput, out int choiceOfCandidate))
@@ -78,16 +66,19 @@ namespace CheckMyCV
                         string fullTextFromPdfFile = listOfCandidates.ExtractTextFromPdf(filePath, fileName, chosenCandidate);
                         Console.Clear();
                         Console.WriteLine(fullTextFromPdfFile);
-                        Console.WriteLine("Finished");
-                        Console.ReadLine();
+                        BackToMenu();
+                        
 
 
                         break;
+                    case "7":
+                        Console.WriteLine("GoodBye");
+                        return;
 
                     default:
-                        Console.WriteLine("bye");
-                        Console.ReadLine();
-                        return;
+                        Console.WriteLine("Wrong number. Out of list of possible options");
+                        BackToMenu();
+                        break;
                 }
 
             }
@@ -109,9 +100,28 @@ namespace CheckMyCV
             //Console.WriteLine("6. Show me the list of qualified candidates.");
             Console.WriteLine("7. Close the application.");
         }
+        static int InputCheckIfInt(string userInput)
+        {
+            if (int.TryParse(userInput, out int j))
+            {
+                return j;
+            }
+            else
+            {
+                Console.WriteLine("Wrong input. Next time write a number. Press ENTER to continue...");
+                Console.ReadLine();
+                return 0;
+            }
+        }
+
+        static void BackToMenu()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("Press ENTER or other button on keyboard to continue...");
+            Console.ReadLine();
+        }
 
 
     }
-
 
 }

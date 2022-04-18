@@ -8,7 +8,13 @@ namespace CheckMyCV
 {
     class Qualification
     {
-
+        public Qualification(int weightOfRequirements, string requirements)
+        {
+            WeightOfRequirements = weightOfRequirements;
+            Requirements = requirements;
+        }
+        public int WeightOfRequirements { get; set; }
+        public string Requirements { get; set; }
         
 
 
