@@ -45,6 +45,7 @@ namespace CheckMyCV
 
         public void ShowAllCandidatesFiles()
         {
+            Console.WriteLine("Those are all candidates CV files:");
             ShowCandidatesFiles(Candidates);
         }
 

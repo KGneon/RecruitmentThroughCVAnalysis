@@ -9,21 +9,14 @@ namespace CheckMyCV
         static void Main(string[] args)
         {
             bool go = true;
-
+            int chosenCandidate = 0;
+            // !!! different location - it depends on machine you are working on
+            string filePath = @"Candidates Files";
 
             var listOfCandidates = new CandidatesDataBase();
             var listOfRequirements = new QualificationsForThePosition();
 
-            //Console.WriteLine("Choose the file to work on");
-            string filePath = @"D:\Kodowanie\Git Projs\CheckMyCV\Candidates Files";
-
-
-
-
-            int chosenCandidate = 0;
-
             listOfCandidates.GetCandidatesList(filePath);
-
 
             while (go == true)
             {
@@ -31,26 +24,20 @@ namespace CheckMyCV
                 MainMenu();
                 var officerInput = Console.ReadLine();
                 officerInput = InputCheckIfInt(officerInput).ToString();
+
                 switch (officerInput)
                 {
-                    case "0":
-                        BackToMenu();
-                        break;
                     case "1":
                         listOfCandidates.ShowAllCandidatesFiles();
                         BackToMenu();
                         break;
-                    case "2":
-                        Console.WriteLine("Do you want to add job requirements or remove requirements?");
-                        Console.WriteLine("How many qualifications we are looking for?");
-                        string requirementsNumber = Console.ReadLine();
-                        int requirementsNumberInt = InputCheckIfInt(requirementsNumber);
-                        BackToMenu();
-                        break;
 
-                    case "4":
-                        Console.WriteLine("Wybierz plik do odczytania 1-2");
+                    case "2":
+                        listOfCandidates.ShowAllCandidatesFiles();
+                        Console.WriteLine("");
+                        Console.WriteLine("Choose candidate by Id number:");
                         string userInput = Console.ReadLine();
+
                         if (int.TryParse(userInput, out int choiceOfCandidate))
                         {
                             chosenCandidate = choiceOfCandidate;
@@ -62,15 +49,36 @@ namespace CheckMyCV
                             break;
                         }
                         string fileName = listOfCandidates.GetCandidateFileNameById(chosenCandidate);
-                        Console.WriteLine(fileName);
+                        Console.WriteLine("Wait for it...");
                         string fullTextFromPdfFile = listOfCandidates.ExtractTextFromPdf(filePath, fileName, chosenCandidate);
                         Console.Clear();
+                        Console.WriteLine(fileName);
+                        Console.WriteLine("contains...");
                         Console.WriteLine(fullTextFromPdfFile);
+
                         BackToMenu();
-                        
-
-
                         break;
+
+                    case "3":
+                        Console.WriteLine("Do you want to add job requirements or remove requirements? Add: 1 / Remove: 2");
+                        string userNumber = Console.ReadLine();
+                        int userNumberInt = InputCheckIfInt(userNumber);
+                        if (userNumberInt == 1)
+                        {
+                            Console.WriteLine("How many qualifications you want to add?");
+                            string requirementsNumber = Console.ReadLine();
+                            int requirementsNumberInt = InputCheckIfInt(requirementsNumber);
+                            for (int i = 0; i < requirementsNumberInt; i++)
+                            {
+                                Console.WriteLine($"What is the name of the {i+1} requirement?");
+                                var requirement = new Qualification();
+
+                            }
+
+                        }
+                        BackToMenu();
+                        break;
+
                     case "7":
                         Console.WriteLine("GoodBye");
                         return;
@@ -80,22 +88,17 @@ namespace CheckMyCV
                         BackToMenu();
                         break;
                 }
-
             }
-            //var listOfCandidates = new CandidatesDataBase();
-
         }
-
         static void MainMenu()
         {
             Console.WriteLine("Hello HR Officer! I will help you find the right candidate!");
-
             Console.WriteLine("What do you want to do?");
-
+            Console.WriteLine("");
             Console.WriteLine("1. Show me all candidates.");
-            Console.WriteLine("2. Let me determine the necessary qualifications for the position.");
-            //Console.WriteLine("3. Show me the list of candidates with their qualifications.");
-            Console.WriteLine("4. Show me specific pdf file text");
+            Console.WriteLine("2. Show me specific cadidate pdf file text");
+            Console.WriteLine("3. Let me determine the necessary qualifications for the position.");
+            //Console.WriteLine("4. Show me the list of candidates with their qualifications.");
             //Console.WriteLine("5. Show me the list of qualified candidates.");
             //Console.WriteLine("6. Show me the list of qualified candidates.");
             Console.WriteLine("7. Close the application.");
@@ -119,9 +122,7 @@ namespace CheckMyCV
             Console.WriteLine("");
             Console.WriteLine("Press ENTER or other button on keyboard to continue...");
             Console.ReadLine();
-        }
-
-
+        }  
     }
 
 }
