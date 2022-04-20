@@ -68,10 +68,29 @@ namespace CheckMyCV
                             Console.WriteLine("How many qualifications you want to add?");
                             string requirementsNumber = Console.ReadLine();
                             int requirementsNumberInt = InputCheckIfInt(requirementsNumber);
+
+                            Console.WriteLine("Do you want to add importance (weight) of requirements higher than 1? Yes: 1 / No: 2");
+                            string userChoiceOfWeight = Console.ReadLine();
+                            int userChoiceOfWeightInt = InputCheckIfInt(userChoiceOfWeight);
+
                             for (int i = 0; i < requirementsNumberInt; i++)
                             {
-                                Console.WriteLine($"What is the name of the {i+1} requirement?");
-                                var requirement = new Qualification();
+                                Console.WriteLine($"What is the name of the {i + 1} requirement?");
+                                string requirementName = Console.ReadLine();
+                                int weightOfRequirementInt;
+                                if (userChoiceOfWeightInt == 1)
+                                {
+                                    Console.WriteLine($"What is the weight of the {i + 1} requirement?");
+                                    string weightOfRequirement = Console.ReadLine();
+                                    weightOfRequirementInt = InputCheckIfInt(weightOfRequirement);
+                                }
+                                else
+                                {
+                                    weightOfRequirementInt = 1; 
+                                }
+
+                                var requirement = new Qualification(weightOfRequirementInt, requirementName);
+                                listOfRequirements.AddingQualifications(requirement);
 
                             }
 
@@ -122,7 +141,8 @@ namespace CheckMyCV
             Console.WriteLine("");
             Console.WriteLine("Press ENTER or other button on keyboard to continue...");
             Console.ReadLine();
-        }  
+        }
+
     }
 
 }
