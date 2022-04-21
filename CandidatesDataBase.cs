@@ -49,6 +49,25 @@ namespace CheckMyCV
             ShowCandidatesFiles(Candidates);
         }
 
+
+        //public int CountCandidates(List<Candidate> candidates)
+        //{
+        //    int count = 0;
+        //    foreach (Candidate candidate in candidates)
+        //    {
+        //        count++;
+        //    }
+        //    return count;
+        //}
+
+        //public int CountAllCandidates()
+        //{
+        //    return CountCandidates(Candidates);
+        //}
+        public bool IsCandidateExistById(int candidateId)
+        {
+            return Candidates.Any(x => x.Id == candidateId);
+        }
         public string GetCandidateFileNameById(int candidateId)
         {
             var file = Candidates.FirstOrDefault(c => c.Id.Equals(candidateId));
@@ -59,11 +78,11 @@ namespace CheckMyCV
         public string ExtractTextFromPdf(string path, string cv, int fileNumber)
         {
             var doc = new Document($@"{path}\{cv}");
-            string txtPath = $@"Output{fileNumber}.txt";
+            string txtPath = $@"Output.txt";
             doc.Save(txtPath);
-            string textTest = File.ReadAllText(txtPath);
+            string textFromFile = File.ReadAllText(txtPath);
 
-            return textTest;
+            return textFromFile;
         }
         //public void CorrectingFileName(string filePath)
 
