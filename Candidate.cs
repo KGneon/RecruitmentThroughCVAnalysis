@@ -32,6 +32,5 @@ namespace CheckMyCV
         public string EmailAdress { get; set; }
         public List<string> QualificationsByRequired { get; set; } = new List<string>();
         public int QualificationWeightNumber { get; set; }
-
     }
 }

@@ -75,7 +75,7 @@ namespace CheckMyCV
             return fileName;
         }
 
-        public string ExtractTextFromPdf(string path, string cv, int fileNumber)
+        public string ExtractTextFromPdf(string path, string cv)
         {
             var doc = new Document($@"{path}\{cv}");
             string txtPath = $@"Output.txt";
@@ -83,6 +83,27 @@ namespace CheckMyCV
             string textFromFile = File.ReadAllText(txtPath);
 
             return textFromFile;
+        }
+
+      
+
+        //public void GetQualificationsListAndEmail(List<string> listOfQualifciations, string path, string cv)
+        //{
+
+        //}
+
+        public void GetCandidatesListWithStatus(string filePath)
+        {
+            string[] candidatesList = GetCandidates(filePath);
+            for (int i = 0; i < candidatesList.Length; i++)
+            {
+                var candidate = new Candidate(i + 1, candidatesList[i]);
+                Candidates.Add(candidate);
+            }
+        }
+        public void ShowCandidateFileWithStatus(Candidate candidate)
+        {
+            Console.WriteLine($"ID: {candidate.Id}, CV File Name: {candidate.CVFileName}");
         }
         //public void CorrectingFileName(string filePath)
 

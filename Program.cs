@@ -15,6 +15,7 @@ namespace CheckMyCV
 
             var listOfCandidates = new CandidatesDataBase();
             var listOfRequirements = new QualificationsForThePosition();
+            var listOfCandidatesWithQualifiactions = new CandidatesDataBase();
 
             listOfCandidates.GetCandidatesList(filePath);
 
@@ -54,7 +55,7 @@ namespace CheckMyCV
                         {
                             string fileName = listOfCandidates.GetCandidateFileNameById(chosenCandidate);
                             Console.WriteLine("Wait for it...");
-                            string fullTextFromPdfFile = listOfCandidates.ExtractTextFromPdf(filePath, fileName, chosenCandidate);
+                            string fullTextFromPdfFile = listOfCandidates.ExtractTextFromPdf(filePath, fileName);
                             Console.Clear();
                             Console.WriteLine(fileName);
                             Console.WriteLine("contains...");
@@ -125,9 +126,11 @@ namespace CheckMyCV
                             Console.WriteLine("I do not understand...");
                         }
 
-                        //tutaj sprawdzanie plikow kandydatow
-                        //for(int i = 0; i < listOfCandidates.Count; i++)
-                        //var listOfCandidateRequirements = new List<string>();
+                        
+
+
+                        //for (int i = 0; i < listOfCandidates.Count; i++)
+                        //    var listOfCandidateRequirements = new List<string>();
 
                         BackToMenu();
                         break;
@@ -135,7 +138,12 @@ namespace CheckMyCV
                         listOfRequirements.ShowAllQualifications();
                         BackToMenu();
                         break;
+                    case "5":
+                        
 
+
+                        BackToMenu();
+                        break;
                     case "8":
                         Console.WriteLine("GoodBye");
                         return;
