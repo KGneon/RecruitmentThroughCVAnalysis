@@ -32,7 +32,6 @@ namespace CheckMyCV
         {
             Console.WriteLine($"{requirementNumber}. Requirement Name: {qualification.Requirements}, Weight: {qualification.WeightOfRequirements}");
         }
-
         public void ShowQualifications(List<Qualification> qualifications)
         {
             int i = 0;
@@ -42,14 +41,40 @@ namespace CheckMyCV
                 ShowQualification(i, qualification);
             }
         }
-
         public void ShowAllQualifications()
         {
             Console.WriteLine("These are all present requirements for the position:");
             ShowQualifications(Qualifications);
         }
 
+        public List<string> GetQualificationsList(List<Qualification> qualifications)
+        {
+            List<string> list = new List<string>();
+            foreach (Qualification qualification in qualifications)
+            {
+                list.Add(qualification.Requirements);
+            }
 
+            return list;
+        }
+        public List<string> ReturnQualificationsList()
+        {
+            return GetQualificationsList(Qualifications);
+        }
+        public List<int> GetQualificationsWeightList(List<Qualification> qualifications)
+        {
+            List<int> list = new List<int>();
+            foreach (Qualification qualification in qualifications)
+            {
+                list.Add(qualification.WeightOfRequirements);
+            }
+
+            return list;
+        }
+        public List<int> ReturnQualificationsWeightList()
+        {
+            return GetQualificationsWeightList(Qualifications);
+        }
 
     }
 }

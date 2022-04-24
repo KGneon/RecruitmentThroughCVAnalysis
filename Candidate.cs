@@ -15,16 +15,17 @@ namespace CheckMyCV
             //IsQualified = isQualified;
         }
 
-        public Candidate(int id, string cvFileName, List<string> qualifications, int qualificationWeightNumber)
+        public Candidate(int id, string cvFileName, string emailAdress, List<string> qualifications, int qualificationWeightNumber)
         {
             Id = id;
             CVFileName = cvFileName;
             //Name = name;
             //SurName = surName;
-            //EmailAdress = emailAdress;
+            EmailAdress = emailAdress;
             QualificationsByRequired = qualifications;
             QualificationWeightNumber = qualificationWeightNumber;
         }
+
         public int Id { get; set; }
         public string CVFileName { get; set; }
         //public string Name { get; set; }

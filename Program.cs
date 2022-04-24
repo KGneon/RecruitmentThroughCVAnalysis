@@ -15,7 +15,8 @@ namespace CheckMyCV
 
             var listOfCandidates = new CandidatesDataBase();
             var listOfRequirements = new QualificationsForThePosition();
-            var listOfCandidatesWithQualifiactions = new CandidatesDataBase();
+            var listOfCandidatesWithQualifications = new CandidatesDataBase();
+
 
             listOfCandidates.GetCandidatesList(filePath);
 
@@ -69,6 +70,9 @@ namespace CheckMyCV
                         break;
 
                     case "3":
+
+                        
+
                         Console.WriteLine("Do you want to add job requirements or remove requirements? Add: 1 / Remove: 2");
                         string userNumber = Console.ReadLine();
                         int userNumberInt = InputCheckIfInt(userNumber);
@@ -103,9 +107,9 @@ namespace CheckMyCV
                                 listOfRequirements.AddingQualifications(requirement);
 
                             }
-
+                            Console.WriteLine("Wait...");
                         }
-                        if (userNumberInt == 2)
+                        else if (userNumberInt == 2)
                         {
                             Console.WriteLine("How many qualifications you want to add?");
                             string requirementsNumber = Console.ReadLine();
@@ -120,14 +124,21 @@ namespace CheckMyCV
                                 listOfRequirements.RemoveQualifications(requirement);
 
                             }
+                            Console.WriteLine("Wait...");
                         }
                         else
                         {
                             Console.WriteLine("I do not understand...");
+                            Console.WriteLine("Wait...");
                         }
 
-                        
+                        List<string> listOfSetRequirements = new List<string>();
+                        List<int> listOfRequirementsWeight = new List<int>();
 
+                        listOfSetRequirements = listOfRequirements.ReturnQualificationsList();
+                        listOfRequirementsWeight = listOfRequirements.ReturnQualificationsWeightList();
+
+                        listOfCandidatesWithQualifications.GetCandidatesListWithQualifications(filePath, listOfSetRequirements, listOfRequirementsWeight);
 
                         //for (int i = 0; i < listOfCandidates.Count; i++)
                         //    var listOfCandidateRequirements = new List<string>();
@@ -139,12 +150,10 @@ namespace CheckMyCV
                         BackToMenu();
                         break;
                     case "5":
-                        
-
-
+                        listOfCandidatesWithQualifications.ShowAllCandidatesWithQualifications();
                         BackToMenu();
                         break;
-                    case "8":
+                    case "7":
                         Console.WriteLine("GoodBye");
                         return;
 
@@ -165,10 +174,9 @@ namespace CheckMyCV
             Console.WriteLine("2. Show me specific cadidate pdf file text");
             Console.WriteLine("3. Let me determine the necessary requirements for the position.");
             Console.WriteLine("4. Show me the list of all requirements");
-            //Console.WriteLine("5. Show me the list of candidates with their qualifications.");
+            Console.WriteLine("5. Show me the list of candidates with their qualifications. Use after entering the requirements (option 3 at first).");
             //Console.WriteLine("6. Show me the list of qualified candidates.");
-            //Console.WriteLine("7. .");
-            Console.WriteLine("8. Close the application.");
+            Console.WriteLine("7. Close the application.");
         }
         static int InputCheckIfInt(string userInput)
         {

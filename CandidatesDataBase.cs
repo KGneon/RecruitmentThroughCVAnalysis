@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Aspose.Words;
+using System.Text.RegularExpressions;
 
 namespace CheckMyCV
 {
@@ -84,26 +85,82 @@ namespace CheckMyCV
 
             return textFromFile;
         }
+        public bool CheckIfQualificationExistsInCVFileText(string path, string cv, string qualification)
+        {
+            string cvTextFromFile = ExtractTextFromPdf(path, cv);
+            if (cvTextFromFile.ToLower().Contains(qualification.ToLower()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-      
+        public string GetEmailFromCVFile(string path, string cv)
+        {
+            string cvTextFromFile = ExtractTextFromPdf(path, cv);
+            
+            Regex emailRegex = new Regex(@"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", RegexOptions.IgnoreCase);
+            //find items that matches with our pattern
+            MatchCollection emailMatches = emailRegex.Matches(cvTextFromFile);
+            if (emailMatches.Count > 0)
+            {
+                return emailMatches.FirstOrDefault().ToString();
+            }
+            else
+            {
+                return "No email adress detected";
+            }
 
-        //public void GetQualificationsListAndEmail(List<string> listOfQualifciations, string path, string cv)
-        //{
+        }
 
-        //}
-
-        public void GetCandidatesListWithStatus(string filePath)
+        public void GetCandidatesListWithQualifications(string filePath, List<string> requirements, List<int> weightOfRequirements)
         {
             string[] candidatesList = GetCandidates(filePath);
             for (int i = 0; i < candidatesList.Length; i++)
             {
-                var candidate = new Candidate(i + 1, candidatesList[i]);
+                string candidateCVFile = candidatesList[i];
+                string candidateEmail = GetEmailFromCVFile(filePath, candidateCVFile);
+                int sumOfWeight = 0;
+                List<string> candidateRequirements = new List<string>();
+
+                for (int j = 0; j < requirements.Count; j++)
+                {
+                    if (CheckIfQualificationExistsInCVFileText(filePath, candidateCVFile, requirements[j]))
+                    {
+                        sumOfWeight = sumOfWeight + weightOfRequirements[j];
+                        candidateRequirements.Add(requirements[j]);
+
+                    }
+                }
+
+                var candidate = new Candidate(i + 1, candidatesList[i], candidateEmail, candidateRequirements, sumOfWeight);
                 Candidates.Add(candidate);
             }
         }
-        public void ShowCandidateFileWithStatus(Candidate candidate)
+        public void ShowCandidateWithQualifications(Candidate candidate)
         {
-            Console.WriteLine($"ID: {candidate.Id}, CV File Name: {candidate.CVFileName}");
+            Console.WriteLine($"ID: {candidate.Id}, e-mail adress: {candidate.EmailAdress}, CV File Name: {candidate.CVFileName} | Candidate qualifications:");
+            foreach (String qualification in candidate.QualificationsByRequired)
+            {
+                Console.Write($" {qualification},");
+            }
+            Console.WriteLine($",, | > weight of qualifications is: {candidate.QualificationWeightNumber}");
+        }
+        public void ShowCandidatesWithQualifications(List<Candidate> candidates)
+        {
+            foreach (Candidate candidate in candidates)
+            {
+                ShowCandidateWithQualifications(candidate);
+                Console.WriteLine("");
+            }
+        }
+        public void ShowAllCandidatesWithQualifications()
+        {
+            Console.WriteLine("Those are all candidates CV files:");
+            ShowCandidatesWithQualifications(Candidates);
         }
         //public void CorrectingFileName(string filePath)
 
